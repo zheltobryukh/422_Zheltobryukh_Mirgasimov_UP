@@ -17,7 +17,7 @@
             <RowDefinition Height="45">
             </RowDefinition>
         </Grid.RowDefinitions>
-        <Frame Grid.Row="1" Name="MainFrame"> </Frame>
+        <Frame Grid.Row="1" x:Name="MainFrame"> </Frame>
         <TextBlock x:Name="DateTimeNow"
         HorizontalAlignment="Left"
         Margin="522,0,0,0" Grid.Row="2"

@@ -23,6 +23,7 @@ namespace _422_Zheltobryukh
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Source = new Uri("Pages/AuthPage.xaml", UriKind.Relative);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

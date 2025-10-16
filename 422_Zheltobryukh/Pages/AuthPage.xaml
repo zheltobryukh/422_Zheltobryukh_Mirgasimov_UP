@@ -26,7 +26,8 @@
                Margin="178,85,0,0"
                HorizontalAlignment="Left"
                Width="54"
-               VerticalAlignment="Top" />
+               VerticalAlignment="Top" 
+               Visibility="Hidden" />
 
         <Label Content="Пароль"
                x:Name="labelPass"
@@ -35,7 +36,8 @@
                Width="64"
                Grid.Row="0"
                Grid.RowSpan="2"
-               VerticalAlignment="Top" />
+               VerticalAlignment="Top" 
+               Visibility="Hidden" />
 
         <TextBox x:Name="TextBoxLogin"
                  Background="Transparent"
@@ -48,6 +50,7 @@
                  HorizontalAlignment="Left"
                  Width="134"
                  Grid.Column="1"
+                 Visibility="Hidden"
                  CommandManager.PreviewExecuted="textBox_PreviewExecuted"/>
 
         <TextBox x:Name="txtHintLogin"
@@ -73,6 +76,7 @@
                      Height="32"
                      VerticalAlignment="Bottom"
                      Grid.Column="1"
+                     Visibility="Hidden"
                      PasswordChanged="PasswordBox_PasswordChanged" />
 
         <TextBox x:Name="txtHintPass"
@@ -89,7 +93,6 @@
                  Text="Введите пароль"
                  Visibility="Hidden" />
 
-
         <Button x:Name="ButtonEnter"
                 Margin="69,20,0,0"
                 Height="34"
@@ -100,6 +103,7 @@
                 Width="120"
                 VerticalAlignment="Top"
                 Grid.Column="1"
+                Visibility="Hidden"
                 Click="ButtonEnter_OnClick" />
 
         <Button x:Name="ButtonReg"
@@ -112,6 +116,7 @@
                 Width="120"
                 VerticalAlignment="Top"
                 Grid.Column="1"
+                Visibility="Hidden"
                 Click="ButtonReg_Click" />
 
         <Button x:Name="ButtonChangePassword"
@@ -124,12 +129,13 @@
                 Width="120"
                 VerticalAlignment="Top"
                 Grid.Column="1"
+                Visibility="Hidden"
                 Click="ButtonChangePassword_Click" />
 
         <TextBox Grid.Column="1"
                  CommandManager.PreviewExecuted="textBox_PreviewExecuted"
                  ContextMenu="{x:Null}"
-                 Visibility="Hidden"
+                 Visibility="Visible"
                  x:Name="captcha"
                  Height="42"
                  Foreground="Red"
@@ -147,7 +153,7 @@
                  FontSize="20" />
 
         <TextBox Grid.Column="1"
-                 Visibility="Hidden"
+                 Visibility="Visible"
                  x:Name="captchaInput"
                  HorizontalAlignment="Left"
                  Height="34"
@@ -159,7 +165,7 @@
 
         <Button x:Name="submitCaptcha"
                 Margin="69,20,0,0"
-                Visibility="Hidden"
+                Visibility="Visible"
                 Height="34"
                 Content="Подтвердить"
                 ToolTip="Подтвердить ввод капчи"
@@ -174,6 +180,7 @@
                Name="labelCaptcha"
                Margin="178,104,0,87"
                HorizontalAlignment="Left"
-               Width="54" />
+               Width="54" 
+               Visibility="Visible" />
     </Grid>
 </Page>

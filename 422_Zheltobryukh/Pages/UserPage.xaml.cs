@@ -13,20 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace _422_Zheltobryukh
+namespace _422_Zheltobryukh.Pages
 {
     /// <summary>
-    /// Interaction logic for RegPage.xaml
+    /// Interaction logic for UserPage.xaml
     /// </summary>
-    /// 
-    public partial class RegPage : Page
+    public partial class UserPage : Page
     {
-
-        public RegPage()
+        public UserPage()
         {
             InitializeComponent();
-            comboBxRole.SelectedIndex = 0;
-
         }
     }
 }
