@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace _422_Zheltobryukh.Pages
 {
@@ -24,84 +16,89 @@ namespace _422_Zheltobryukh.Pages
         public AuthPage()
         {
             InitializeComponent();
-            CaptchaChange(); // Call CaptchaChange() right after initializing components
+            CaptchaChange(); // Инициализация капчи при загрузке страницы
         }
 
-        public static string GetHash(String password)
+        // --- Хеширование SHA256 (совпадает с RegPage) ---
+        public static string GetHash(string password)
         {
-            using (var hash = SHA1.Create())
+            using (SHA256 sha256 = SHA256.Create())
             {
-                return
-                string.Concat(hash.ComputeHash(Encoding.UTF8.GetBytes(password)).Select(x =>
-                x.ToString("X2")));
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(bytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToUpper();
             }
         }
 
+        // --- События текстовых полей и подсказок ---
         private void TextBoxLogin_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Logic for a hint-style TextBox
-            // txtHintLogin.Visibility = string.IsNullOrEmpty(TextBoxLogin.Text) ? Visibility.Visible : Visibility.Hidden;
+            txtHintLogin.Visibility = string.IsNullOrEmpty(TextBoxLogin.Text)
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            // Logic for a hint-style PasswordBox
-            // txtHintPass.Visibility = string.IsNullOrEmpty(PasswordBox.Password) ? Visibility.Visible : Visibility.Hidden;
+            txtHintPass.Visibility = string.IsNullOrEmpty(PasswordBox.Password)
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
         private void ButtonChangePassword_Click(object sender, RoutedEventArgs e)
         {
+            // обработка смены пароля (если нужно)
         }
 
+        // --- Авторизация пользователя ---
         private void ButtonEnter_OnClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(TextBoxLogin.Text) ||
-            string.IsNullOrEmpty(PasswordBox.Password))
+                string.IsNullOrEmpty(PasswordBox.Password))
             {
-                MessageBox.Show("Введите логин или пароль");
+                MessageBox.Show("Введите логин и пароль!");
                 return;
             }
 
             string hashedPassword = GetHash(PasswordBox.Password);
 
-            // Placeholder for database access
             using (var db = new Zheltobryukh_DB_PaymentsEntities1())
             {
                 var user = db.Users
-                .AsNoTracking()
-                .FirstOrDefault(u => u.LOGIN == TextBoxLogin.Text &&
-                u.Password == hashedPassword);
+                    .AsNoTracking()
+                    .FirstOrDefault(u => u.LOGIN == TextBoxLogin.Text && u.Password == hashedPassword);
 
                 if (user == null)
                 {
-                    MessageBox.Show("Пользователь с такими данными не найден!");
+                    MessageBox.Show("Неверный логин или пароль!");
                     failedAttempts++;
-                    if (failedAttempts >= 3)
+
+                    if (failedAttempts >= 3 && captcha.Visibility != Visibility.Visible)
                     {
-                        if (captcha.Visibility != Visibility.Visible)
-                        {
-                            CaptchaSwitch();
-                        }
+                        CaptchaSwitch();
                     }
+
                     return;
                 }
-                else
-                {
-                    MessageBox.Show("Пользователь успешно найден!");
 
-                    switch (user.Role)
-                    {
-                        case "User":
-                            NavigationService?.Navigate(new Pages.UserPage());
-                            break;
-                        case "Admin":
-                            NavigationService?.Navigate(new Pages.AdminPage());
-                            break;
-                    }
+                MessageBox.Show("Вход выполнен успешно!");
+
+                switch (user.Role)
+                {
+                    case "User":
+                        NavigationService?.Navigate(new Pages.UserPage());
+                        break;
+                    case "Admin":
+                        NavigationService?.Navigate(new Pages.AdminPage());
+                        break;
+                    default:
+                        MessageBox.Show("Неизвестная роль пользователя!");
+                        break;
                 }
             }
         }
 
+        // --- Переключение режима капчи ---
         public void CaptchaSwitch()
         {
             switch (captcha.Visibility)
@@ -116,13 +113,12 @@ namespace _422_Zheltobryukh.Pages
                     labelLogin.Visibility = Visibility.Visible;
                     labelPass.Visibility = Visibility.Visible;
                     TextBoxLogin.Visibility = Visibility.Visible;
-                    // txtHintLogin.Visibility = Visibility.Visible;
                     PasswordBox.Visibility = Visibility.Visible;
-                    // txtHintPass.Visibility = Visibility.Visible;
                     ButtonChangePassword.Visibility = Visibility.Visible;
                     ButtonEnter.Visibility = Visibility.Visible;
                     ButtonReg.Visibility = Visibility.Visible;
                     return;
+
                 case Visibility.Hidden:
                     CaptchaChange();
                     captcha.Visibility = Visibility.Visible;
@@ -132,9 +128,7 @@ namespace _422_Zheltobryukh.Pages
                     labelLogin.Visibility = Visibility.Hidden;
                     labelPass.Visibility = Visibility.Hidden;
                     TextBoxLogin.Visibility = Visibility.Hidden;
-                    // txtHintLogin.Visibility = Visibility.Hidden;
                     PasswordBox.Visibility = Visibility.Hidden;
-                    // txtHintPass.Visibility = Visibility.Hidden;
                     ButtonChangePassword.Visibility = Visibility.Hidden;
                     ButtonEnter.Visibility = Visibility.Hidden;
                     ButtonReg.Visibility = Visibility.Hidden;
@@ -142,50 +136,49 @@ namespace _422_Zheltobryukh.Pages
             }
         }
 
+        // --- Генерация новой капчи ---
         public void CaptchaChange()
         {
-            String allowchar = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
-            allowchar += "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,y,z";
-            allowchar += "1,2,3,4,5,6,7,8,9,0";
-            char[] a = { ',' };
-            String[] ar = allowchar.Split(a);
-            String pwd = "";
-            string temp = "";
-            Random r = new Random();
+            string allowchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+            StringBuilder captchaBuilder = new StringBuilder();
+            Random random = new Random();
 
             for (int i = 0; i < 6; i++)
             {
-                temp = ar[(r.Next(0, ar.Length))];
-                pwd += temp;
+                captchaBuilder.Append(allowchar[random.Next(0, allowchar.Length)]);
             }
-            captcha.Text = pwd;
+
+            captcha.Text = captchaBuilder.ToString();
         }
 
+        // --- Проверка капчи ---
         private void submitCaptcha_Click(object sender, RoutedEventArgs e)
         {
             if (captchaInput.Text != captcha.Text)
             {
-                MessageBox.Show("Неверно введена капча", "Ошибка");
+                MessageBox.Show("Неверно введена капча!", "Ошибка");
                 CaptchaChange();
             }
             else
             {
-                MessageBox.Show("Капча введена успешно, можете продолжить авторизацию", "Успех");
+                MessageBox.Show("Капча введена успешно.", "Успех");
                 CaptchaSwitch();
                 failedAttempts = 0;
             }
         }
 
+        // --- Блокировка вставки / копирования ---
         private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == ApplicationCommands.Copy ||
-            e.Command == ApplicationCommands.Cut ||
-            e.Command == ApplicationCommands.Paste)
+                e.Command == ApplicationCommands.Cut ||
+                e.Command == ApplicationCommands.Paste)
             {
                 e.Handled = true;
             }
         }
 
+        // --- Переход на страницу регистрации ---
         private void ButtonReg_Click(object sender, RoutedEventArgs e)
         {
             NavigationService?.Navigate(new RegPage());

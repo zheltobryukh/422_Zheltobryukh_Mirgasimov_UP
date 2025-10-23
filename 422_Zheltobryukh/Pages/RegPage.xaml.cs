@@ -1,102 +1,107 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace _422_Zheltobryukh
 {
-    /// <summary>
-    /// Interaction logic for RegPage.xaml
-    /// </summary>
-    /// 
     public partial class RegPage : Page
-    {   
-
+    {
         public RegPage()
         {
             InitializeComponent();
             comboBxRole.SelectedIndex = 0;
-
         }
 
-        private void lblLogHitn_MouseLeftButtonUp(object sender, MouseButtonEventArgs
-e)
+        // --- Обработчики для подсказок (placeholder'ов) ---
+        private void lblLogHitn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             txtbxLog.Focus();
         }
 
-        private void txtbxFIO_TextChanged(object sender, TextChangedEventArgs e)
+        private void lblPassHitn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
+            passBxFrst.Focus();
         }
 
-        private void passBxScnd_PasswordChanged(object sender, RoutedEventArgs e)
+        private void lblPassSecHitn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            passBxScnd.Focus();
+        }
 
+        private void lblFioHitn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            txtbxFIO.Focus();
+        }
+
+        private void txtbxLog_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            lblLogHitn.Visibility = string.IsNullOrEmpty(txtbxLog.Text)
+                ? Visibility.Visible
+                : Visibility.Hidden;
+        }
+
+        private void txtbxFIO_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            lblFioHitn.Visibility = string.IsNullOrEmpty(txtbxFIO.Text)
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
         private void passBxFrst_PasswordChanged(object sender, RoutedEventArgs e)
         {
-
+            lblPassHitn.Visibility = string.IsNullOrEmpty(passBxFrst.Password)
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
-
-        private void txtbxLog_TextChanged(object sender, TextChangedEventArgs e)
+        private void passBxScnd_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            lblLogHitn.Visibility = Visibility.Visible;
-            if (txtbxLog.Text.Length > 0)
-            {
-                lblLogHitn.Visibility = Visibility.Hidden;
-
-            }
+            lblPassSecHitn.Visibility = string.IsNullOrEmpty(passBxScnd.Password)
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
+        // --- Основная логика регистрации ---
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
+            // 1️⃣ Проверка заполнения всех полей
             if (string.IsNullOrEmpty(txtbxLog.Text) ||
-                string.IsNullOrEmpty(txtbxFIO.Text) || string.IsNullOrEmpty(passBxFrst.Password) ||
+                string.IsNullOrEmpty(txtbxFIO.Text) ||
+                string.IsNullOrEmpty(passBxFrst.Password) ||
                 string.IsNullOrEmpty(passBxScnd.Password))
             {
                 MessageBox.Show("Заполните все поля!");
                 return;
             }
 
+            // 2️⃣ Проверка совпадения паролей
             if (passBxFrst.Password != passBxScnd.Password)
             {
                 MessageBox.Show("Пароли не совпадают!");
                 return;
             }
 
+            // 3️⃣ Проверка длины пароля
             if (passBxFrst.Password.Length < 6)
             {
                 MessageBox.Show("Пароль слишком короткий, должно быть минимум 6 символов!");
                 return;
             }
 
+            // 4️⃣ Проверка символов в пароле
             bool hasEnglish = false;
             bool hasNumber = false;
 
-            for (int i = 0; i < passBxFrst.Password.Length; i++)
+            foreach (char c in passBxFrst.Password)
             {
-                char c = passBxFrst.Password[i];
                 if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-                {
                     hasEnglish = true;
-                }
                 else if (c >= '0' && c <= '9')
-                {
                     hasNumber = true;
-                }
             }
 
             if (!hasEnglish)
@@ -111,26 +116,51 @@ e)
                 return;
             }
 
-            User userObject = new User
-            {
-                FIO = txtbxFIO.Text,
-                LOGIN = txtbxLog.Text,
-                Password = passBxFrst.Password,
-                Role = comboBxRole.Text
-            };
-
+            // 5️⃣ Проверка существующего логина
             using (var db = new Zheltobryukh_DB_PaymentsEntities1())
             {
-                db.Users.Add(userObject);
+                var user = db.Users
+                    .AsNoTracking()
+                    .FirstOrDefault(u => u.LOGIN == txtbxLog.Text);
+
+                if (user != null)
+                {
+                    MessageBox.Show("Пользователь с таким логином уже существует!");
+                    return;
+                }
+
+                // 6️⃣ Создание нового пользователя с хешированием SHA256
+                User newUser = new User
+                {
+                    FIO = txtbxFIO.Text,
+                    LOGIN = txtbxLog.Text,
+                    Password = GetHash(passBxFrst.Password), // ✅ хешируем перед сохранением
+                    Role = comboBxRole.Text
+                };
+
+                db.Users.Add(newUser);
                 db.SaveChanges();
             }
 
+            // 7️⃣ Очистка полей после регистрации
             MessageBox.Show("Пользователь успешно зарегистрирован!");
+
             txtbxLog.Clear();
             passBxFrst.Clear();
             passBxScnd.Clear();
-            comboBxRole.SelectedIndex = 1;
             txtbxFIO.Clear();
+            comboBxRole.SelectedIndex = 0;
+        }
+
+        // --- Метод хеширования SHA256 ---
+        public static string GetHash(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(bytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToUpper();
+            }
         }
     }
 }

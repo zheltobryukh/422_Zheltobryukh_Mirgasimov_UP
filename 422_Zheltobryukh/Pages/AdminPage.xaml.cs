@@ -24,5 +24,29 @@ namespace _422_Zheltobryukh.Pages
         {
             InitializeComponent();
         }
+
+        // Переход на страницу пользователей
+        private void BtnTab1_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new UsersTabPage());
+        }
+
+        // Переход на страницу категорий
+        private void BtnTab2_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new CategoryTabPage());
+        }
+
+        // Переход на страницу платежей
+        private void BtnTab3_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new PaymentTabPage());
+        }
+
+        // Переход на страницу диаграмм
+        private void BtnTab4_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new DiagrammPage());
+        }
     }
 }

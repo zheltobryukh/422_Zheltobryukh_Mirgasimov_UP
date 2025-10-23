@@ -7,26 +7,39 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="650"
+        Width="900"
+        WindowStartupLocation="CenterScreen">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45">
-            </RowDefinition>
-            <RowDefinition>
-            </RowDefinition>
-            <RowDefinition Height="45">
-            </RowDefinition>
+            <RowDefinition Height="45"/>
+            <RowDefinition/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
-        <Frame Grid.Row="1" x:Name="MainFrame"> </Frame>
-        <TextBlock x:Name="DateTimeNow"
-        HorizontalAlignment="Left"
-        Margin="522,0,0,0" Grid.Row="2"
-        VerticalAlignment="Center"
-        Height="35"
-        Width="194"
-        Grid.Column="1"/>
 
-        <Button Content="Назад" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0"></Button>
-        <Button Content="Сменить стиль" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,5,10,0" Click="Button_Click"></Button>
+        <Frame Grid.Row="1" x:Name="MainFrame" />
+
+        <TextBlock x:Name="DateTimeNow"
+                   HorizontalAlignment="Left"
+                   Margin="522,0,0,0"
+                   Grid.Row="2"
+                   VerticalAlignment="Center"
+                   Height="35"
+                   Width="194"
+                   Grid.Column="1"/>
+
+        <Button Content="Назад"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10,5,0,0"/>
+
+        <Button Content="Сменить стиль"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="10,5,10,0"
+                Click="Button_Click"/>
     </Grid>
 </Window>
