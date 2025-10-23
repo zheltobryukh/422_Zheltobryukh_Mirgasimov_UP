@@ -34,12 +34,14 @@
                 Grid.Row="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="10,5,0,0"/>
+                Margin="10,5,0,0" 
+                Click="BackButton_Click"
+                x:Name="BackButton"/>
 
         <Button Content="Сменить стиль"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Margin="10,5,10,0"
-                Click="Button_Click"/>
+                Click="ChangeStyleButton_Click"/>
     </Grid>
 </Window>

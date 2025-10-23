@@ -9,25 +9,49 @@
       Title="AdminPage">
 
     <Grid>
-        <Button x:Name="BtnTab1" Content="Таблица пользователей"
-            HorizontalAlignment="Left" Margin="68,160,0,0"
-            VerticalAlignment="Top" Height="41" Width="181"
-            Click="BtnTab1_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Button x:Name="BtnTab2" Content="Таблица категорий"
-            HorizontalAlignment="Center" Margin="0,160,0,0"
-            VerticalAlignment="Top" Height="41" Width="173"
-            Click="BtnTab2_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Button x:Name="BtnTab3" Content="Таблица платежей"
-            HorizontalAlignment="Left" Margin="531,160,0,0"
-            VerticalAlignment="Top" Height="41" Width="163"
-            Click="BtnTab3_Click"/>
+        <!-- Первый ряд кнопок -->
+        <Button x:Name="BtnTab1" 
+                Content="Таблица пользователей"
+                Grid.Row="1" Grid.Column="1"
+                Margin="10" 
+                Height="41" Width="181"
+                Click="BtnTab1_Click"/>
 
-        <Button x:Name="BtnTab4" Content="Диаграммы"
-            HorizontalAlignment="Center" Margin="0,321,0,0"
-            VerticalAlignment="Top" Height="41" Width="131"
-            Click="BtnTab4_Click"/>
+        <Button x:Name="BtnTab2" 
+                Content="Таблица категорий"
+                Grid.Row="1" Grid.Column="2"
+                Margin="10" 
+                Height="41" Width="173"
+                Click="BtnTab2_Click"/>
+
+        <Button x:Name="BtnTab3" 
+                Content="Таблица платежей"
+                Grid.Row="1" Grid.Column="3"
+                Margin="10" 
+                Height="41" Width="163"
+                Click="BtnTab3_Click"/>
+
+        <!-- Второй ряд - кнопка по центру -->
+        <Button x:Name="BtnTab4" 
+                Content="Диаграммы"
+                Grid.Row="2" Grid.Column="2"
+                Margin="10" 
+                Height="41" Width="131"
+                Click="BtnTab4_Click"/>
     </Grid>
-
 </Page>

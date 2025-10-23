@@ -161,7 +161,7 @@ namespace _422_Zheltobryukh.Pages
             }
             else
             {
-                MessageBox.Show("Капча введена успешно.", "Успех");
+                MessageBox.Show("Капча введена успешно..", "Успех");
                 CaptchaSwitch();
                 failedAttempts = 0;
             }
