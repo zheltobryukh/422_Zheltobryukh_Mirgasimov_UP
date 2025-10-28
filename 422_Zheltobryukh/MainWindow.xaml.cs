@@ -81,7 +81,7 @@ namespace _422_Zheltobryukh
             // Переключаем тему при каждом нажатии
             _isDarkTheme = !_isDarkTheme;
 
-            string themeFile = _isDarkTheme ? "DictionaryDark.xaml" : "DictionaryLight.xaml";
+            string themeFile = _isDarkTheme ? "DictionaryDark.xaml" : "Dictionary.xaml";
             var uri = new Uri(themeFile, UriKind.Relative);
 
             // Загружаем словарь ресурсов
