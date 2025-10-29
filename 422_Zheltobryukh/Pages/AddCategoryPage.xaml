@@ -9,11 +9,15 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Название категории" Grid.Row="0" FontSize="20" Margin="10"/>
-        <TextBox x:Name="TBCategoryName" Grid.Row="0" Margin="10,40,10,10"/>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Сохранить" Width="100" Margin="10"/>
-            <Button Content="Очистить" Width="100" Margin="10"/>
+        <TextBox x:Name="TBCategoryName" 
+                 Text="{Binding Name}" 
+                 Grid.Row="0" Margin="10,40,10,10"/>
+
+        <StackPanel Grid.Row="1" 
+Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="ButtonSaveCategory" Content="Сохранить" Width="100" Margin="10" Click="ButtonSaveCategory_Click"/>
+            <Button x:Name="ButtonClean" Content="Очистить" Width="100" Margin="10" Click="ButtonClean_Click"/>
         </StackPanel>
     </Grid>
 </Page>

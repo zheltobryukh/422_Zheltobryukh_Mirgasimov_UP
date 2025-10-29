@@ -17,6 +17,16 @@ namespace _422_Zheltobryukh.Pages
         {
             InitializeComponent();
             CaptchaChange(); // Инициализация капчи при загрузке страницы
+            this.Loaded += AuthPage_Loaded;
+        }
+
+        private void AuthPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (captcha.Visibility == Visibility.Visible)
+            {
+                CaptchaSwitch();
+            }
+            failedAttempts = 0;
         }
 
         // --- Хеширование SHA256 (совпадает с RegPage) ---
@@ -82,6 +92,15 @@ namespace _422_Zheltobryukh.Pages
                 }
 
                 MessageBox.Show("Вход выполнен успешно!");
+
+                if (NavigationService.CanGoBack)
+                {
+                    var mainWindow = Window.GetWindow(this) as MainWindow;
+                    if (mainWindow != null)
+                    {
+                        mainWindow.ClearNavigationHistory();
+                    }
+                }
 
                 switch (user.Role)
                 {

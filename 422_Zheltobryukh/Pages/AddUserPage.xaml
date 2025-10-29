@@ -35,8 +35,8 @@
         <TextBox x:Name="TBPhoto" Grid.Row="4" Grid.Column="1" Margin="5"/>
 
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-            <Button Content="Сохранить" Width="100" Margin="10"/>
-            <Button Content="Очистить" Width="100" Margin="10"/>
+            <Button x:Name="ButtonSave" Content="Сохранить" Width="100" Margin="10" Click="ButtonSave_Click"/>
+            <Button x:Name="ButtonClean" Content="Очистить" Width="100" Margin="10" Click="ButtonClean_Click"/>
         </StackPanel>
     </Grid>
 </Page>

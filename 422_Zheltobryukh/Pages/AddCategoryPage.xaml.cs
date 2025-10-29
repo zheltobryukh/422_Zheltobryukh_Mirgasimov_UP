@@ -20,9 +20,67 @@ namespace _422_Zheltobryukh.Pages
     /// </summary>
     public partial class AddCategoryPage : Page
     {
-        public AddCategoryPage()
+        private Category _currentCategory = new Category();
+
+        public AddCategoryPage(Category selectedCategory)
         {
             InitializeComponent();
+
+            if (selectedCategory != null)
+                _currentCategory = selectedCategory;
+
+        
+            DataContext = _currentCategory;
+        }
+
+        
+        private void ButtonSaveCategory_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder errors = new StringBuilder();
+
+            
+            if (string.IsNullOrWhiteSpace(_currentCategory.Name))
+                errors.AppendLine("Укажите название категории!");
+
+            if (errors.Length > 0)
+            {
+                MessageBox.Show(errors.ToString());
+                return;
+            }
+
+            
+            using (var db = new Zheltobryukh_DB_PaymentsEntities1())
+            {
+                if (_currentCategory.ID == 0) 
+                {
+                    db.Categories.Add(_currentCategory);
+                }
+                else
+                {
+                    var existingCategory = db.Categories.Find(_currentCategory.ID);
+                    if (existingCategory != null)
+                    {
+                        db.Entry(existingCategory).CurrentValues.SetValues(_currentCategory);
+                    }
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                    MessageBox.Show("Данные успешно сохранены!");
+                    NavigationService.GoBack();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+            }
+        }
+
+        private void ButtonClean_Click(object sender, RoutedEventArgs e)
+        {
+
+            TBCategoryName.Text = "";
         }
     }
 }
