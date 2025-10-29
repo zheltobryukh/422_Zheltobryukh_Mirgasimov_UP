@@ -103,6 +103,9 @@
     <Compile Include="Pages\CategoryTabPage.xaml.cs">
       <DependentUpon>CategoryTabPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ChangePassPage.xaml.cs">
+      <DependentUpon>ChangePassPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DiagrammPage.xaml.cs">
       <DependentUpon>DiagrammPage.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CategoryTabPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ChangePassPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

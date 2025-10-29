@@ -57,7 +57,7 @@ namespace _422_Zheltobryukh.Pages
 
         private void ButtonChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            // обработка смены пароля (если нужно)
+            NavigationService?.Navigate(new ChangePassPage());
         }
 
         // --- Авторизация пользователя ---
