@@ -24,5 +24,25 @@ namespace _422_Zheltobryukh.Pages
         {
             InitializeComponent();
         }
+
+
+
+
+
+        
+        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        {
+        
+        }
+
+        private void ButtonDel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

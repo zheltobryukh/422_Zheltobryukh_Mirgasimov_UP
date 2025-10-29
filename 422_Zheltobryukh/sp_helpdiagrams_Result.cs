@@ -10,19 +10,13 @@
 namespace _422_Zheltobryukh
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Payment
+    public partial class sp_helpdiagrams_Result
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
-        public int CategoryID { get; set; }
-        public System.DateTime Date { get; set; }
+        public string Database { get; set; }
         public string Name { get; set; }
-        public decimal Num { get; set; }
-        public decimal Price { get; set; }
-    
-        public virtual Category Category { get; set; }
-        public virtual User User { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

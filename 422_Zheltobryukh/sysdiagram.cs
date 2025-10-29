@@ -12,17 +12,12 @@ namespace _422_Zheltobryukh
     using System;
     using System.Collections.Generic;
     
-    public partial class Payment
+    public partial class sysdiagram
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
-        public int CategoryID { get; set; }
-        public System.DateTime Date { get; set; }
-        public string Name { get; set; }
-        public decimal Num { get; set; }
-        public decimal Price { get; set; }
-    
-        public virtual Category Category { get; set; }
-        public virtual User User { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

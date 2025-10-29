@@ -11,7 +11,7 @@
         <DataGrid Grid.Row="0" x:Name="DataGridUser"
                   AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Логин" Binding="{Binding UserLogin}" Width="100"/>
+                <DataGridTextColumn Header="Логин" Binding="{Binding LOGIN}" Width="100"/>
                 <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="100"/>
                 <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="80"/>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" Width="200"/>
