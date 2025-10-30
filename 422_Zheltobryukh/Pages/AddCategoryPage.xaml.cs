@@ -33,12 +33,11 @@ namespace _422_Zheltobryukh.Pages
             DataContext = _currentCategory;
         }
 
-        
+
         private void ButtonSaveCategory_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
 
-            
             if (string.IsNullOrWhiteSpace(_currentCategory.Name))
                 errors.AppendLine("Укажите название категории!");
 
@@ -48,19 +47,22 @@ namespace _422_Zheltobryukh.Pages
                 return;
             }
 
-            
             using (var db = new Zheltobryukh_DB_PaymentsEntities1())
             {
-                if (_currentCategory.ID == 0) 
+                if (_currentCategory.ID == 0)
                 {
                     db.Categories.Add(_currentCategory);
                 }
                 else
                 {
+
                     var existingCategory = db.Categories.Find(_currentCategory.ID);
+
                     if (existingCategory != null)
                     {
-                        db.Entry(existingCategory).CurrentValues.SetValues(_currentCategory);
+                        existingCategory.Name = _currentCategory.Name;
+
+                        db.Entry(existingCategory).State = System.Data.Entity.EntityState.Modified;
                     }
                 }
 
@@ -72,10 +74,11 @@ namespace _422_Zheltobryukh.Pages
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message.ToString());
+                    MessageBox.Show($"Ошибка сохранения: {ex.Message}\n\nInnerException:\n{ex.InnerException?.Message}");
                 }
             }
         }
+
 
         private void ButtonClean_Click(object sender, RoutedEventArgs e)
         {

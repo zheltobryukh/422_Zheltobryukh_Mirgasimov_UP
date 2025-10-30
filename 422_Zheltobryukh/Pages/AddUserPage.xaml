@@ -17,22 +17,19 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Логин" Grid.Row="0" Grid.Column="0" FontSize="18" Margin="5"/>
-        <TextBox x:Name="TBLogin" Grid.Row="0" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="TBLogin" Text="{Binding LOGIN}" Grid.Row="0" Grid.Column="1" Margin="5"/>
 
         <TextBlock Text="Пароль" Grid.Row="1" Grid.Column="0" FontSize="18" Margin="5"/>
-        <TextBox x:Name="TBPass" Grid.Row="1" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="TBPass" Text="{Binding Password}" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
         <TextBlock Text="Роль" Grid.Row="2" Grid.Column="0" FontSize="18" Margin="5"/>
-        <ComboBox x:Name="cmbRole" Grid.Row="2" Grid.Column="1" Margin="5">
-            <ComboBoxItem Content="Admin"/>
-            <ComboBoxItem Content="User"/>
-        </ComboBox>
+        <ComboBox x:Name="cmbRole" SelectedItem="{Binding Role}" Grid.Row="2" Grid.Column="1" Margin="5"/>
 
         <TextBlock Text="ФИО" Grid.Row="3" Grid.Column="0" FontSize="18" Margin="5"/>
-        <TextBox x:Name="TBFio" Grid.Row="3" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="TBFio" Text="{Binding FIO}" Grid.Row="3" Grid.Column="1" Margin="5"/>
 
         <TextBlock Text="Фото (необязательно)" Grid.Row="4" Grid.Column="0" FontSize="18" Margin="5"/>
-        <TextBox x:Name="TBPhoto" Grid.Row="4" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="TBPhoto" Text="{Binding Photo}" Grid.Row="4" Grid.Column="1" Margin="5"/>
 
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Button x:Name="ButtonSave" Content="Сохранить" Width="100" Margin="10" Click="ButtonSave_Click"/>
