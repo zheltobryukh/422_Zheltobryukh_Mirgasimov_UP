@@ -58,7 +58,8 @@ namespace _422_Zheltobryukh.Pages
         {
             StringBuilder errors = new StringBuilder();
 
-            if (string.IsNullOrWhiteSpace(TBPaymentName.Text))
+            // 1. ПРОВЕРКА НА ПУСТОЕ ИМЯ (решение ошибки валидации)
+            if (string.IsNullOrWhiteSpace(_currentPayment.Name))
                 errors.AppendLine("Укажите название платежа!");
 
             if (!DateTime.TryParse(TBDate.Text, out DateTime paymentDate))
@@ -105,10 +106,17 @@ namespace _422_Zheltobryukh.Pages
                 }
                 else
                 {
+                    // 2. ИСПРАВЛЕНИЕ РЕДАКТИРОВАНИЯ (убираем SetValues)
                     var existingPayment = db.Payments.Find(_currentPayment.ID);
                     if (existingPayment != null)
                     {
-                        db.Entry(existingPayment).CurrentValues.SetValues(_currentPayment);
+                        // Вручную обновляем поля
+                        existingPayment.Name = _currentPayment.Name;
+                        existingPayment.Date = _currentPayment.Date;
+                        existingPayment.Num = _currentPayment.Num;
+                        existingPayment.Price = _currentPayment.Price;
+                        existingPayment.UserID = _currentPayment.UserID;
+                        existingPayment.CategoryID = _currentPayment.CategoryID;
                     }
                 }
 
@@ -118,9 +126,18 @@ namespace _422_Zheltobryukh.Pages
                     MessageBox.Show("Данные успешно сохранены!");
                     NavigationService.GoBack();
                 }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    // Более подробная ошибка валидации
+                    var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
+                    var fullErrorMessage = string.Join("\n", errorMessages);
+                    MessageBox.Show($"Ошибка валидации:\n{fullErrorMessage}");
+                }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message.ToString());
+                    MessageBox.Show($"Ошибка сохранения: {ex.Message}\n\nInnerException:\n{ex.InnerException?.Message}", "Ошибка");
                 }
             }
         }
