@@ -27,9 +27,20 @@ namespace _422_Zheltobryukh.Pages
                 cmbRole.SelectedItem = selectedUser.Role;
             }
         }
+        public static string GetHash(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(bytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToUpper();
+            }
+        }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+
+
             StringBuilder errors = new StringBuilder();
 
             if (string.IsNullOrWhiteSpace(_currentUser.LOGIN))
@@ -51,6 +62,8 @@ namespace _422_Zheltobryukh.Pages
 
             using (var db = new Zheltobryukh_DB_PaymentsEntities1())
             {
+                _currentUser.Password = GetHash(_currentUser.Password);
+
                 if (_currentUser.ID == 0)
                 {
                     db.Users.Add(_currentUser);
@@ -75,6 +88,7 @@ namespace _422_Zheltobryukh.Pages
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+
         }
 
         private void ButtonClean_Click(object sender, RoutedEventArgs e)

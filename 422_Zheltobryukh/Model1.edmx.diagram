@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b305950b4974406986472040facb2db3" Name="Diagram1">
+      <Diagram DiagramId="2c09ce9a8baf425c8bc48e425b202fcd" Name="Diagram1">
         <EntityTypeShape EntityType="Zheltobryukh_DB_PaymentsModel.Category" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Zheltobryukh_DB_PaymentsModel.Payment" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="Zheltobryukh_DB_PaymentsModel.sysdiagram" Width="1.5" PointX="7.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Zheltobryukh_DB_PaymentsModel.sysdiagram" Width="1.5" PointX="5.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Zheltobryukh_DB_PaymentsModel.User" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
         <AssociationConnector Association="Zheltobryukh_DB_PaymentsModel.FK_Payment_Category" ManuallyRouted="false" />
         <AssociationConnector Association="Zheltobryukh_DB_PaymentsModel.FK_Payment_User" ManuallyRouted="false" />
